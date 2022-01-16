@@ -179,7 +179,6 @@ TODO_LIST.addEventListener('click', e => {
             isAnimating = false;
             updateItemsLeftNum();
         }, 250);
-        
     }
 })
 
