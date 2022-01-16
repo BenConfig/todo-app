@@ -1,0 +1,145 @@
+<!DOCTYPE html>
+<html lang="en">
+  
+  <head>
+
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Frontend Mentor | To-Do App</title>
+    <link rel="stylesheet" href="main.css">
+
+  </head>
+
+  <body>
+
+    <header class="header">
+
+      <!-- Background Images -->
+      <img class="bg-img bg-img-light bg-img-mobile" src="images/bg-mobile-light.jpg" alt="" aria-hidden="true">
+      <img class="bg-img bg-img-dark bg-img-mobile" src="images/bg-mobile-dark.jpg" alt="" aria-hidden="true">
+      <img class="bg-img bg-img-light bg-img-desktop" src="images/bg-desktop-light.jpg" alt="" aria-hidden="true">
+      <img class="bg-img bg-img-dark bg-img-desktop" src="images/bg-desktop-dark.jpg" alt="" aria-hidden="true">
+
+      <h1 class="h1">Todo</h1>
+
+      <!-- Dark Mode Toggle -->
+      <button
+        class="btn-toggle-dark-mode"
+        type="button"
+        aria-label="Toggle dark mode"
+        aria-describedby="status">
+        <img class="moon-icon" src="images/icon-moon.svg" alt="" aria-hidden="true">
+        <img class="sun-icon" src="images/icon-sun.svg" alt="" aria-hidden="true">
+      </button>
+      <p class="sr-only" id="status" aria-live="polite">Dark mode is off.</p>
+
+      <!-- Create a Todo Item -->
+      <div class="create-todo-container">
+        <label class="sr-only" for="create-todo">Create a todo item</label>
+        <input
+          class="create-todo-input"
+          id="create-todo"
+          type="text"
+          placeholder="Create a new todo..."
+          maxlength="250"
+          autofocus>
+        <button class="circle circle-create-item" type="button" aria-label="Add item to todo list"></button>
+      </div>
+
+    </header>
+
+    <main class="todo">
+      
+      <!-- Todo List -->
+      <ol class="list">
+
+        <li class="item" draggable="true">
+          <button class="circle circle-complete-item" type="button" aria-label="Complete item"></button>
+          <span class="task">Complete online JavaScript course</span>
+          <span class="sr-only" aria-live="polite">Task not yet completed</span>
+          <button class="btn-delete-item" type="button" aria-label="Delete item"></button>
+        </li>
+
+        <li class="item" draggable="true">
+          <button class="circle circle-complete-item" type="button" aria-label="Complete item"></button>
+          <span class="task">Jog around the park 3x</span>
+          <span class="sr-only" aria-live="polite">Task not yet completed</span>
+          <button class="btn-delete-item" type="button" aria-label="Delete item"></button>
+        </li>
+
+        <li class="item" draggable="true">
+          <button class="circle circle-complete-item" type="button" aria-label="Complete item"></button>
+          <span class="task">10 minutes meditation</span>
+          <span class="sr-only" aria-live="polite">Task not yet completed</span>
+          <button class="btn-delete-item" type="button" aria-label="Delete item"></button>
+        </li>
+
+        <li class="item" draggable="true">
+          <button class="circle circle-complete-item" type="button" aria-label="Complete item"></button>
+          <span class="task">Read for 1 hour</span>
+          <span class="sr-only" aria-live="polite">Task not yet completed</span>
+          <button class="btn-delete-item" type="button" aria-label="Delete item"></button>
+        </li>
+
+        <li class="item" draggable="true">
+          <button class="circle circle-complete-item" type="button" aria-label="Complete item"></button>
+          <span class="task">Pick up groceries</span>
+          <span class="sr-only" aria-live="polite">Task not yet completed</span>
+          <button class="btn-delete-item" type="button" aria-label="Delete item"></button>
+        </li>
+
+        <li class="item" draggable="true">
+          <button class="circle circle-complete-item" type="button" aria-label="Complete item"></button>
+          <span class="task">Complete Todo App on Frontend Mentor</span>
+          <span class="sr-only" aria-live="polite">Task not yet completed</span>
+          <button class="btn-delete-item" type="button" aria-label="Delete item"></button>
+        </li>
+
+      </ol>
+
+      <!-- Todo Footer -->
+      <div class="todo-footer">
+        <p class="items-left" aria-live="polite"></p>
+        <fieldset class="shown-items-menu">
+          <legend class="sr-only">Select items to be displayed</legend>
+          
+          <input
+            class="sr-only"
+            type="radio"
+            id="all"
+            name="show"
+            value="all"
+            checked>
+          <label class="show show-all" for="all">All</label>
+          
+          <input
+            class="sr-only"
+            type="radio"
+            id="active"
+            name="show"
+            value="active">
+          <label class="show show-active" for="active">Active</label>
+          
+          <input
+            class="sr-only"
+            type="radio"
+            id="completed"
+            name="show"
+            value="completed">
+          <label class="show show-completed" for="completed">Completed</label>
+
+        </fieldset>
+
+        <button class="btn-clear-completed" type="button">Clear Completed</button>
+
+        <p class="hint">Drag and drop to reorder list</p>
+
+      </div>
+
+    </main>
+
+    <script src="main.js"></script>
+  </body>
+
+</html>

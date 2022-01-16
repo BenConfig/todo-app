@@ -1,0 +1,500 @@
+/* ------------------------------------------------------ */
+/*                          Fonts                         */
+/* ------------------------------------------------------ */
+@import url('https://fonts.googleapis.com/css2?family=Josefin+Sans:wght@400;700&display=swap');
+
+/* ------------------------------------------------------ */
+/*                    Custom Properties                   */
+/* ------------------------------------------------------ */
+:root {
+    /* -------------------- Font Weights -------------------- */
+    --fw-normal: 400;
+    --fw-bold: 700;
+
+    /* -------------------- Border Radii -------------------- */
+    --br-sm: .3125rem;
+    --br-pill: 100vmax;
+
+    /* -------------- Circle Size for Todo Item ------------- */
+    --circle-size: clamp(1.125rem, .6875rem + 1.86vw, 1.375rem);
+
+    /* ----------------- Animation Duration ----------------- */
+    --ad-sm: 250ms;
+
+    /* ----------------------- Colors ----------------------- */
+    --clr-primary: hsl(220, 98%, 61%);
+    --clr-check-bg: linear-gradient(135deg, hsl(192, 100%, 67%), hsl(280, 87%, 65%));
+
+    /* Light Theme */
+    --clr-todo-bg: hsl(0, 0%, 100%);
+    --clr-body-bg: hsl(0, 0%, 98%);
+    --clr-check-outline: hsl(236, 33%, 92%);
+    --clr-btn-show-text: hsl(236, 9%, 61%);
+    --clr-text: hsl(235, 19%, 35%);
+    --clr-focus-outline: hsl(0, 0%, 0%);
+}
+
+/* Dark Theme (if set manually with toggle) */
+:root.dark {
+    --clr-todo-bg: hsl(235, 24%, 19%);
+    --clr-body-bg: hsl(235, 21%, 11%);
+    --clr-check-outline: hsl(237, 14%, 50%);
+    --clr-btn-show-text: hsl(233, 14%, 50%);
+    --clr-text: hsl(234, 11%, 82%);
+    --clr-focus-outline: hsl(0, 0%, 90%);
+}
+
+/* Dark Theme (if set in browser/machine) */
+@media (prefers-color-scheme: dark) {
+    :root {
+        --clr-todo-bg: hsl(235, 24%, 19%);
+        --clr-body-bg: hsl(235, 21%, 11%);
+        --clr-check-outline: hsl(237, 14%, 50%);
+        --clr-btn-show-text: hsl(233, 14%, 50%);
+        --clr-text: hsl(234, 11%, 82%);
+        --clr-focus-outline: hsl(0, 0%, 90%);
+    }
+}
+
+/* ------------------------------------------------------ */
+/*                 Resets & Global Styles                 */
+/* ------------------------------------------------------ */
+* { box-sizing: border-box; }
+
+body,
+h1, ol, p,
+fieldset,
+input,
+button { margin: 0; }
+
+ol, 
+input,
+fieldset,
+button { padding: 0; }
+
+ol { list-style: none; }
+
+fieldset,
+button { border: none; }
+
+button {
+    display: grid;
+    place-items: center;
+    min-width: 44px; /* Accessibility Requirement */
+    min-height: 44px; /* Accessibility Requirement */
+    font: inherit;
+    background: none;
+    cursor: pointer;
+}
+
+img { display: block; }
+
+.sr-only {
+    position: absolute;
+    opacity: 0;
+    pointer-events: none;
+}
+
+.resize-animation-stopper * { transition: none !important; }
+
+body {
+    font: var(--fw-normal) .75rem/1.5 'Josefin Sans', sans-serif;
+    background: var(--clr-body-bg);
+    padding-bottom: 10rem;
+}
+
+@media only screen and (min-width: 32em) {
+    body { padding-bottom: 5.75rem; }
+}
+
+/* Focus State Outline for Buttons */
+button:focus {
+    outline: 2px solid var(--clr-focus-outline);
+    outline-offset: -2px;
+}
+
+button:focus:not(:focus-visible) { outline: none; }
+
+button:focus-visible {
+    outline: 2px solid var(--clr-focus-outline);
+    outline-offset: -4px;
+}
+
+/* ------------------------------------------------------ */
+/*                       Components                       */
+/* ------------------------------------------------------ */
+/* - Circles used in the 'create todo' and 'todo items' - */
+.circle {
+    position: absolute;
+    top: 50%;
+    left: clamp(.5rem, -.125rem + 2.79vw, .875rem);
+    transform: translateY(-50%);
+}
+
+.circle::before,
+.circle::after {
+    content: '';
+    position: absolute;
+    top: 50%; left: 50%;
+    transform: translate(-50%, -50%);
+    border-radius: var(--br-pill);
+}
+
+.circle::before {
+    width: calc(var(--circle-size) + 2px);
+    height: calc(var(--circle-size) + 2px);
+    background: var(--clr-check-outline);
+}
+
+.circle:hover::before,
+.circle:focus::before { background: var(--clr-check-bg); }
+
+.circle::after {
+    position: absolute;
+    width: var(--circle-size);
+    height: var(--circle-size);
+    background-color: var(--clr-todo-bg);
+}
+
+.circle-create-item:hover::after,
+.circle-create-item:focus::after {
+    background: url('images/icon-plus.svg') no-repeat center;
+    background-color: transparent; 
+}
+
+/* ------------------------------------------------------ */
+/*                         Header                         */
+/* ------------------------------------------------------ */
+.header {
+    position: relative;
+    isolation: isolate;
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-between;
+    align-items: center;
+    padding-top: clamp(2.63rem, -1.99rem + 19.71vw, 4.31rem);
+    padding-inline: max(1.5rem, calc(50% - 16.875rem));
+    padding-bottom: clamp(2.75rem, -0.96rem + 15.81vw, 4.88rem);
+    margin: 0 auto calc(-1 * clamp(3.25rem, 0.42rem + 12.09vw, 4.88rem));
+    background: var(--clr-text);
+}
+
+/* ------------------ Background Images ----------------- */
+.bg-img {
+    position: absolute;
+    z-index: -1;
+    top: 0; left: 0;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    object-position: top;
+    transition: opacity var(--ad-sm) ease-in-out;
+}
+
+.bg-img-desktop { display: none; }
+
+.bg-img-dark { opacity: 0; }
+
+@media only screen and (min-width: 23.5em) {
+    .bg-img-mobile { display: none; }
+    .bg-img-desktop { display: block; }
+}
+
+/* When Dark Mode is switched on */
+.dark .bg-img-light { opacity: 0}
+.dark .bg-img-dark { opacity: 1; }
+/* ---------------- Background Images END --------------- */
+
+.h1 {
+    font-size: clamp(1.625rem, .25rem + 6.05vw, 2.4375rem);
+    letter-spacing: .41em;
+    text-transform: uppercase;
+    color: hsl(0, 0%, 98%);
+}
+
+/* ------------------ Dark Mode Toggle ------------------ */
+.btn-toggle-dark-mode { transform: translate(.625rem, -.25rem); }
+
+.moon-icon,
+.sun-icon {
+    grid-area: 1 / 1 / 2 / 2;
+    width: clamp(1.25rem, .625rem + 2.76vw, 1.625rem);
+    transition: opacity var(--ad-sm) ease-in-out, transform var(--ad-sm) ease-in-out;
+}
+
+.sun-icon { transform: rotate(360deg) }
+
+.sun-icon { opacity: 0; }
+
+.dark .moon-icon {
+    opacity: 0;
+    transform: rotate(-360deg)
+}
+.dark .sun-icon {
+    opacity: 1;
+    transform: rotate(0);
+}
+
+/* Color Transitions */
+body, 
+body *,
+body *::before,
+body *::after,
+.create-todo-input::placeholder {
+    transition: color var(--ad-sm) ease-in-out,
+                background-color var(--ad-sm) ease-in-out,
+                border-bottom-color var(--ad-sm) ease-in-out;
+} 
+/* ---------------- Dark Mode Toggle END ---------------- */
+
+
+/* --------------------- Create Todo -------------------- */
+.create-todo-container {
+    flex: 100%;
+    position: relative;
+    margin-top: clamp(1.375rem, .5rem + 3.72vw, 1.875rem);
+}
+
+.create-todo-input {
+    width: 100%;
+    font: inherit;
+    font-size: clamp(.75rem, .1rem + 2.76vw, 1.125rem);
+    padding-top: clamp(1rem, .5625rem + 1.86vw, 1.25rem);
+    padding-right: clamp(.5rem, .06rem + 1.86vw, .75rem);
+    padding-bottom: clamp(.875rem, .5625rem + 1.4vw, 1.0625rem);
+    padding-left: clamp(3.25rem, 1.0625rem + 9.3vw, 4.5rem);
+    border: none;
+    border-radius: var(--br-sm);
+    color: var(--clr-text);
+    background: var(--clr-todo-bg);
+    caret-color: var(--clr-primary);
+}
+
+.create-todo-input::placeholder {
+    color: var(--clr-text);
+    opacity: .4;
+}
+
+.create-todo-input:focus { outline: 3px solid var(--clr-focus-outline); }
+/* ------------------- Create Todo END ------------------ */
+
+/* ------------------------------------------------------ */
+/*                          Todo                          */
+/* ------------------------------------------------------ */
+.todo {
+    isolation: isolate;
+    border-radius: var(--br-sm);
+    box-shadow: 0 1rem 2rem -.5rem hsla(0, 0%, 0%, .1);
+    margin: 1.5rem max(1.5rem, calc(50% - 16.875rem));
+    background: var(--clr-todo-bg);
+}
+
+.list {
+    border-radius: var(--br-sm) var(--br-sm) 0 0;
+    overflow: hidden;
+}
+
+/* --------------------- Todo Items --------------------- */
+.item {
+    position: relative;
+    display: flex;
+    align-items: center;
+    font-size: clamp(.75rem, .1rem + 2.76vw, 1.125rem);
+    padding-top: clamp(1.1875rem, 1rem + .73vw, 1.25rem);
+    padding-right: clamp(2.75rem, .6825rem + 8.76vw, 3.5rem);
+    padding-bottom: clamp(.9375rem, .625rem + 1.46vw, 1.0625rem);
+    padding-left: calc(clamp(3.25rem, 1.0625rem + 9.3vw, 4.5rem) - .125rem);
+    border-bottom: 1px solid var(--clr-check-outline);
+    transition: padding var(--ad-sm), opacity var(--ad-sm);
+    cursor: grab;
+}
+
+.btn-delete-item {
+    position: absolute;
+    top: 50%;
+    right: clamp(.25rem, -.5rem + 3.26vw, .6875rem);
+    transform: translateY(-50%);
+    background: url('images/icon-cross.svg') no-repeat
+                center / clamp(.75rem, .10rem + 2.79vw, 1.125rem);
+}
+
+.task {
+    position: relative;
+    padding-left: .125rem;
+    color: var(--clr-text);
+}
+
+/* ---------------- 'Create Item' Styles ---------------- */
+/* When 'create item' button is clicked, .reveal class is removed */
+.item.reveal {
+    padding-top: 0;
+    padding-bottom: 0;
+    height: 0;
+    opacity: 0;
+    overflow: hidden;
+}
+
+/* --------------- 'Complete Item' Styles --------------- */
+/* When 'complete item' button is clicked, .completed & .fade classes are added */
+.task::before {
+    content: '';
+    position: absolute;
+    top: 50%;
+    width: 100%;
+    height: 2px;
+    background: currentColor;
+    transform-origin: left;
+    transform: translateY(-50%) scaleX(0);
+}
+
+.item.completed > .circle-complete-item::before {
+    background: var(--clr-check-bg);
+}
+
+.item.completed > .circle-complete-item::after {
+    content: '';
+    background-color: transparent;
+    background: url('images/icon-check.svg') no-repeat center;
+}
+
+.item.completed > .task::before {
+    transform: translateY(-50%) scaleX(1);
+    transition: transform var(--ad-sm) ease-in-out;
+}
+
+.item.completed > .task {
+    max-width: 100%;
+    display: inline-block;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+.item.fade > .task {
+    opacity: .4;
+    transition: opacity var(--ad-sm);
+}
+
+/* ---------------- 'Delete Item' Styles ---------------- */
+/* When 'delete item' button is clicked, .delete class is added */
+.item.delete { transition: padding var(--ad-sm), opacity var(--ad-sm); }
+
+.item.delete {
+    padding-top: 0;
+    padding-bottom: 0;
+    height: 0;
+    opacity: 0;
+    overflow: hidden;
+}
+
+.item * { transition: opacity var(--ad-sm); }
+
+.item.delete > .circle { top: 90%; }
+
+/* ----------------- 'Hide Items' Styles ---------------- */
+/* Controlled with 'show' radio buttons */
+.item.hide { display: none; }
+
+/* ------------------- Dragging Styles ------------------ */
+.item.dragging { background: var(--clr-check-outline); }
+.item:active { cursor: grabbing; }
+
+/* --------------------- Todo Footer -------------------- */
+.todo-footer {
+    position: relative;
+    display: flex;
+    justify-content: space-between;
+    align-items: baseline;
+    font-size: clamp(.75rem, .5rem + 0.93vw, .875rem);
+    padding-top: .125rem;
+    padding-inline: clamp(1.25rem, 0.8125rem + 1.86vw, 1.5rem);
+    padding-bottom: clamp(0.25rem, 0.58rem + -1.40vw, 0.06rem);
+}
+
+.items-left {
+    text-align: center;
+    color: var(--clr-btn-show-text);
+}
+
+.shown-items-menu {
+    position: absolute;
+    top: 4.125rem; left: 0;
+    width: 100%;
+    display: flex;  
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: clamp(0rem, -13.6875rem + 58.39vw, 5rem);
+    padding-top: .25rem;
+    border-radius: var(--br-sm);
+    box-shadow: 0 1rem 2rem -.5rem hsla(0, 0%, 0%, .1);
+    background: var(--clr-todo-bg);
+}
+
+.btn-clear-completed {
+    transform: translateX(.5rem);
+    color: var(--clr-btn-show-text);
+}
+
+.show,
+.btn-clear-completed {
+    padding: .5rem;
+    transition: color var(--ad-sm);
+}
+
+.show:hover,
+.btn-clear-completed:hover { color: var(--clr-text); }
+
+.show {
+    display: grid;
+    place-items: center;
+    min-width: 44px; /* Accessibility Requirement */
+    min-height: 44px; /* Accessibility Requirement */
+    font-size: .875rem;
+    font-weight: var(--fw-bold);
+    color: var(--clr-btn-show-text);
+    cursor: pointer;
+}
+
+[type="radio"]:checked + .show { color: var(--clr-primary); }
+
+[type="radio"]:focus + .show {
+    color: var(--clr-primary);
+    outline: 2px solid var(--clr-focus-outline);
+    outline-offset: -4px;
+}
+
+[type="radio"]:focus:not(:focus-visible) + .show { outline: none; }
+
+[type="radio"]:focus-visible + .show {
+    outline: 2px solid var(--clr-focus-outline);
+    outline-offset: -4px;
+}
+
+.hint {
+    position: absolute;
+    font-size: .875rem;
+    text-align: center;
+    top: 9.625rem; left: 0;
+    width: 100%;
+    color: var(--clr-btn-show-text);
+}
+
+/* Todo Footer MEDIUM VIEWPORT */
+@media only screen and (min-width: 32em) {
+    .todo-footer {
+        padding-top: .1875rem;
+        padding-bottom: .0625rem;
+    }
+
+    .shown-items-menu {
+        position: initial;
+        box-shadow: none;
+        gap: 0;
+        width: auto;
+        padding-top: .125rem;
+        border-radius: 0;
+        margin-left: .5rem;
+    }
+
+    .hint { top: 6.1875rem; }
+}
