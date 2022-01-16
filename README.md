@@ -22,7 +22,7 @@ Users should be able to:
 ![](screenshot-mobile.png)
 
 ### Desktop
-![](screenshot-mobile.png)
+![](screenshot-desktop.png)
 
 ### Built with
 
